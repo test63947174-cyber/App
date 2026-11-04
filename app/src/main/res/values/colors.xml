@@ -1,0 +1,5 @@
+<resources>
+    <!-- The rnd_navy color is declared exactly once in this file. -->
+    <color name="rnd_navy">#030814</color>
+    <color name="rnd_white">#FFFFFF</color>
+</resources>
