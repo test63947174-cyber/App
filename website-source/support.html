@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Support Center - RND Staking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #080e1a; color: #f0f4ff; min-height: 100vh; }
+        
+        .navbar-custom {
+            background: rgba(8,14,26,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(46,204,113,0.15);
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+        }
+        .navbar-custom .navbar-brand { font-weight: 800; font-size: 1.2rem; color: #fff !important; }
+        .navbar-custom .navbar-brand i { color: #2ecc71; }
+        .navbar-custom .nav-link { color: #8899bb; font-size: 0.9rem; }
+        .navbar-custom .nav-link:hover { color: #2ecc71; }
+        
+        .support-container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        .support-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .support-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .support-header h2 span { color: #2ecc71; }
+        .support-header p { color: #8899bb; font-size: 0.95rem; }
+        
+        .support-card {
+            background: rgba(19,34,55,0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(46,204,113,0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        .support-card:hover { border-color: rgba(46,204,113,0.25); }
+        
+        .support-card .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .support-card .card-title i { color: #2ecc71; margin-right: 10px; }
+        
+        .form-control-custom {
+            background: rgba(8,14,26,0.8) !important;
+            border: 1px solid rgba(46,204,113,0.15) !important;
+            color: #f0f4ff !important;
+            padding: 12px 16px !important;
+            border-radius: 12px !important;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        .form-control-custom:focus {
+            border-color: #2ecc71 !important;
+            box-shadow: 0 0 0 3px rgba(46,204,113,0.15) !important;
+        }
+        .form-control-custom::placeholder { color: #556688 !important; }
+        .form-control-custom:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .form-label {
+            color: #a0b8d0;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.95rem;
+            width: 100%;
+        }
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(46,204,113,0.3);
+            color: #fff;
+        }
+        .btn-primary-custom:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-outline-custom {
+            border: 2px solid rgba(46,204,113,0.3);
+            color: #a0b8d0;
+            padding: 8px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            background: transparent;
+            font-size: 0.85rem;
+        }
+        .btn-outline-custom:hover { border-color: #2ecc71; color: #2ecc71; }
+        
+        .success-message {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .success-message .icon {
+            font-size: 4rem;
+            color: #2ecc71;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .success-message h3 { color: #fff; font-weight: 700; }
+        .success-message p { color: #8899bb; }
+        .success-message .sub-text {
+            color: #556688;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+        
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            max-width: 400px;
+        }
+        .toast-custom {
+            background: rgba(19,34,55,0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(46,204,113,0.2);
+            border-radius: 16px;
+            padding: 16px 20px;
+            color: #f0f4ff;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.4s ease;
+            margin-bottom: 10px;
+        }
+        .toast-custom.success { border-left: 4px solid #2ecc71; }
+        .toast-custom.error { border-left: 4px solid #ef4444; }
+        .toast-custom.info { border-left: 4px solid #60a5fa; }
+        .toast-custom i { font-size: 1.5rem; }
+        .toast-custom .toast-msg { flex: 1; font-size: 0.9rem; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        
+        .ticket-item {
+            background: rgba(8,14,26,0.6);
+            border: 1px solid rgba(46,204,113,0.08);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+        .ticket-item:hover { border-color: rgba(46,204,113,0.2); }
+        .ticket-item.has-new-reply {
+            border-color: #2ecc71 !important;
+            box-shadow: 0 0 20px rgba(46,204,113,0.1);
+        }
+        
+        .ticket-item .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .ticket-item .ticket-category {
+            font-size: 0.75rem;
+            background: rgba(46,204,113,0.1);
+            color: #2ecc71;
+            padding: 2px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(46,204,113,0.15);
+        }
+        
+        .ticket-item .ticket-status {
+            font-size: 0.7rem;
+            padding: 2px 12px;
+            border-radius: 20px;
+        }
+        .ticket-item .ticket-status.open { background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.15); }
+        .ticket-item .ticket-status.in-progress { background: rgba(59,130,246,0.1); color: #60a5fa; border: 1px solid rgba(59,130,246,0.15); }
+        .ticket-item .ticket-status.resolved { background: rgba(46,204,113,0.1); color: #2ecc71; border: 1px solid rgba(46,204,113,0.15); }
+        .ticket-item .ticket-status.closed { background: rgba(139,92,246,0.1); color: #a78bfa; border: 1px solid rgba(139,92,246,0.15); }
+        
+        .ticket-item .ticket-subject {
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+        .ticket-item .ticket-message {
+            color: #8899bb;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+        .ticket-item .ticket-date {
+            color: #556688;
+            font-size: 0.65rem;
+        }
+        
+        .ticket-item .admin-reply {
+            background: rgba(46,204,113,0.05);
+            border-left: 3px solid #2ecc71;
+            padding: 10px 15px;
+            margin-top: 10px;
+            border-radius: 8px;
+            animation: replyFadeIn 0.5s ease;
+        }
+        @keyframes replyFadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .ticket-item .admin-reply .reply-label {
+            color: #2ecc71;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .ticket-item .admin-reply .reply-text {
+            color: #a0b8d0;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        
+        .ticket-item .new-reply-badge {
+            background: #2ecc71;
+            color: #080e1a;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .no-tickets {
+            text-align: center;
+            padding: 30px;
+            color: #556688;
+        }
+        .no-tickets i { font-size: 2.5rem; display: block; margin-bottom: 15px; opacity: 0.5; }
+        
+        .ticket-id-badge {
+            font-size: 0.65rem;
+            background: rgba(46,204,113,0.08);
+            color: #556688;
+            padding: 2px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(46,204,113,0.08);
+        }
+        
+        .ticket-number {
+            font-size: 0.8rem;
+            color: #2ecc71;
+            font-weight: 600;
+            background: rgba(46,204,113,0.08);
+            padding: 2px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(46,204,113,0.15);
+        }
+        
+        .search-section {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        .search-section .form-control-custom {
+            flex: 1;
+            min-width: 200px;
+        }
+        .search-section .btn-outline-custom {
+            padding: 12px 20px;
+        }
+        
+        .powered-by {
+            text-align: center;
+            color: #556688;
+            font-size: 0.7rem;
+            margin-top: 20px;
+            padding: 10px;
+        }
+        .powered-by a {
+            color: #2ecc71;
+            text-decoration: none;
+        }
+        
+        /* Live Indicator */
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(46,204,113,0.08);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #2ecc71;
+            border: 1px solid rgba(46,204,113,0.15);
+        }
+        .live-indicator .dot {
+            width: 8px;
+            height: 8px;
+            background: #2ecc71;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        
+        @media (max-width: 768px) {
+            .support-container { padding: 15px; }
+            .support-card { padding: 1.2rem; }
+            .ticket-item .ticket-header { flex-direction: column; align-items: flex-start; }
+            .search-section { flex-direction: column; }
+        }
+        @media (max-width: 480px) {
+            .support-header h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ====== NAVBAR ====== -->
+<nav class="navbar navbar-custom">
+    <div class="container-fluid px-3">
+        <a class="navbar-brand fw-bold" href="dashboard.html">
+            <i class="bi bi-currency-bitcoin me-2"></i>RND Staking
+        </a>
+        <div>
+            <span class="live-indicator">
+                <span class="dot"></span> Live
+            </span>
+            <a href="dashboard.html" class="btn-outline-custom me-2">
+                <i class="bi bi-speedometer2 me-1"></i> Dashboard
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- ====== SUPPORT CONTENT ====== -->
+<div class="support-container" id="supportContent">
+    <div class="support-header">
+        <h2>🛟 <span>Support Center</span></h2>
+        <p>Submit your issue below and track its status. Our team will respond within 24 hours.</p>
+    </div>
+
+    <!-- ====== NEW TICKET FORM ====== -->
+    <div class="support-card" id="supportFormCard">
+        <div class="card-title"><i class="bi bi-envelope-paper"></i> Create New Support Ticket</div>
+        
+        <form id="supportForm">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label"><i class="bi bi-person-badge me-1"></i> User ID <span class="text-danger">*</span></label>
+                    <input type="text" id="supportUserId" class="form-control form-control-custom" placeholder="Enter your User ID" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label"><i class="bi bi-person-circle me-1"></i> Name <span class="text-danger">*</span></label>
+                    <input type="text" id="supportName" class="form-control form-control-custom" placeholder="Enter your Full Name" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label"><i class="bi bi-envelope me-1"></i> Registered Email <span class="text-danger">*</span></label>
+                    <input type="email" id="supportEmail" class="form-control form-control-custom" placeholder="Enter your Registered Email" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label"><i class="bi bi-tag me-1"></i> Category <span class="text-danger">*</span></label>
+                    <select id="supportCategory" class="form-select form-control-custom" required>
+                        <option value="">Select Category</option>
+                        <option value="Deposit Issue">💰 Deposit Issue</option>
+                        <option value="Withdrawal Issue">💳 Withdrawal Issue</option>
+                        <option value="Buy Package">📦 Buy Package</option>
+                        <option value="Transfer">🔄 Transfer</option>
+                        <option value="Referral">👥 Referral</option>
+                        <option value="Login Problem">🔐 Login Problem</option>
+                        <option value="Registration Problem">📝 Registration Problem</option>
+                        <option value="RND Release Issue">🪙 RND Release Issue</option>
+                        <option value="Wallet Balance Issue">💼 Wallet Balance Issue</option>
+                        <option value="Transaction Issue">📄 Transaction Issue</option>
+                        <option value="Technical Support">⚙️ Technical Support</option>
+                        <option value="Bug Report">🐞 Bug Report</option>
+                        <option value="Account Issue">👤 Account Issue</option>
+                        <option value="Other">📌 Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row g-3 mt-2">
+                <div class="col-12">
+                    <label class="form-label"><i class="bi bi-pencil me-1"></i> Subject <span class="text-danger">*</span></label>
+                    <input type="text" id="supportSubject" class="form-control form-control-custom" placeholder="Brief subject" required>
+                </div>
+            </div>
+
+            <div class="row g-3 mt-2">
+                <div class="col-12">
+                    <label class="form-label"><i class="bi bi-chat-dots me-1"></i> Message <span class="text-danger">*</span></label>
+                    <textarea id="supportMessage" class="form-control form-control-custom" rows="5" placeholder="Describe your issue in detail..." required></textarea>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn-primary-custom" id="submitBtn">
+                    <i class="bi bi-send me-2"></i> Submit Request
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- ====== SUCCESS MESSAGE ====== -->
+    <div class="support-card" id="successMessage" style="display:none;">
+        <div class="success-message">
+            <span class="icon"><i class="bi bi-check-circle-fill"></i></span>
+            <h3>✅ Your support request has been sent successfully.</h3>
+            <p>Our team will contact you within 24 hours.</p>
+            <div class="sub-text">
+                <i class="bi bi-clock me-1"></i> Support requests are processed Monday to Saturday, 9 AM - 6 PM IST.
+                <br>
+                <i class="bi bi-arrow-right me-1"></i> You can track your ticket status below.
+                <br>
+                <i class="bi bi-bell me-1"></i> <strong style="color:#2ecc71;">Live updates:</strong> Admin replies will appear automatically!
+            </div>
+            <button class="btn-primary-custom mt-3" style="width:auto;padding:10px 30px;" onclick="location.reload()">
+                <i class="bi bi-arrow-left me-1"></i> Back to Support
+            </button>
+        </div>
+    </div>
+
+    <!-- ====== MY TICKETS ====== -->
+    <div class="support-card" id="ticketsCard">
+        <div class="card-title"><i class="bi bi-ticket-detailed"></i> My Support Tickets <span style="font-size:0.7rem;color:#556688;font-weight:400;">(Live Updates)</span></div>
+        
+        <div class="search-section">
+            <input type="text" id="searchUserId" class="form-control form-control-custom" placeholder="Enter User ID to view tickets...">
+            <button class="btn-outline-custom" onclick="searchTickets()">
+                <i class="bi bi-search me-1"></i> Search
+            </button>
+            <button class="btn-outline-custom" onclick="clearSearch()">
+                <i class="bi bi-x-circle me-1"></i> Clear
+            </button>
+        </div>
+        
+        <div id="ticketsList">
+            <div class="no-tickets">
+                <i class="bi bi-inbox"></i>
+                <p>Enter your User ID above to see your tickets.</p>
+                <p style="font-size:0.75rem;color:#556688;margin-top:10px;">
+                    <i class="bi bi-bell me-1"></i> Admin replies will appear here automatically!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="powered-by">
+        Powered by <a href="#">RND Staking Support System</a> | 
+        <span style="color:#556688;">v2.0</span> | 
+        <span style="color:#2ecc71;"><i class="bi bi-broadcast me-1"></i> Live</span>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="importmap">
+{
+    "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+        "firebase/database": "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"
+    }
+}
+</script>
+
+<script type="module">
+// ============================================================
+// 🔥 FIREBASE - ONLY DATABASE (NO AUTH)
+// ============================================================
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, push, set, onValue, query, orderByChild, equalTo } from "firebase/database";
+
+// ============================================================
+// 🔥 FIREBASE CONFIG
+// ============================================================
+const firebaseConfig = {
+    apiKey: "AIzaSyAz-TLmOhiy-_vHHmIjW8gyIOqTR_PT9o0",
+    authDomain: "rnd2-70080.firebaseapp.com",
+    databaseURL: "https://rnd2-70080-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "rnd2-70080",
+    storageBucket: "rnd2-70080.firebasestorage.app",
+    messagingSenderId: "468625887938",
+    appId: "1:468625887938:web:5cb4ddbcf31b6fc0a4615b",
+    measurementId: "G-ELVJD5NQKB"
+};
+
+const app = initializeApp(firebaseConfig, "supportApp");
+const db = getDatabase(app);
+
+// ============================================================
+// 🔥 GLOBAL VARIABLES
+// ============================================================
+let currentUserId = '';
+let previousTickets = new Map(); // Store previous state to detect changes
+
+// ============================================================
+// 🔥 TOAST NOTIFICATION
+// ============================================================
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast-custom ${type}`;
+    const iconMap = {
+        'success': 'bi-check-circle-fill text-success',
+        'error': 'bi-exclamation-triangle-fill text-danger',
+        'info': 'bi-info-circle-fill text-info'
+    };
+    const icon = iconMap[type] || iconMap['success'];
+    toast.innerHTML = `<i class="bi ${icon}"></i><span class="toast-msg">${message}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => toast.remove(), 300);
+    }, 8000);
+}
+
+// ============================================================
+// 🔥 CHECK FOR NEW REPLIES
+// ============================================================
+function checkForNewReplies(tickets) {
+    let hasNewReply = false;
+    
+    tickets.forEach(ticket => {
+        const previous = previousTickets.get(ticket.id);
+        if (previous) {
+            // Check if adminReply is new or changed
+            if (ticket.adminReply && (!previous.adminReply || ticket.adminReply !== previous.adminReply)) {
+                hasNewReply = true;
+                showToast(
+                    `📩 New reply from Admin for ticket: ${ticket.subject || 'No Subject'}`,
+                    'info'
+                );
+                // Play notification sound effect (if you want)
+                // playNotificationSound();
+            }
+            // Check if status changed
+            if (ticket.status !== previous.status) {
+                const statusText = ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1);
+                showToast(
+                    `🔄 Ticket status updated to: ${statusText}`,
+                    'info'
+                );
+            }
+        }
+        // Store current state for next comparison
+        previousTickets.set(ticket.id, {
+            adminReply: ticket.adminReply,
+            status: ticket.status
+        });
+    });
+    
+    return hasNewReply;
+}
+
+// ============================================================
+// 🔥 LOAD USER TICKETS FROM FIREBASE (REAL-TIME)
+// ============================================================
+function loadUserTickets(userId) {
+    if (!userId || userId.length < 3) {
+        document.getElementById('ticketsList').innerHTML = `
+            <div class="no-tickets">
+                <i class="bi bi-inbox"></i>
+                <p>Enter your User ID above to see your tickets.</p>
+                <p style="font-size:0.75rem;color:#556688;margin-top:10px;">
+                    <i class="bi bi-bell me-1"></i> Admin replies will appear here automatically!
+                </p>
+            </div>
+        `;
+        return;
+    }
+    
+    currentUserId = userId;
+    const ticketsRef = ref(db, 'support_tickets');
+    const userTicketsQuery = query(ticketsRef, orderByChild('userId'), equalTo(userId));
+    
+    // 🔥 REAL-TIME LISTENER - onValue() keeps listening for changes
+    onValue(userTicketsQuery, (snapshot) => {
+        const ticketsList = document.getElementById('ticketsList');
+        
+        if (!snapshot.exists()) {
+            ticketsList.innerHTML = `
+                <div class="no-tickets">
+                    <i class="bi bi-inbox"></i>
+                    <p>No tickets found for User ID: <strong style="color:#2ecc71;">${userId}</strong></p>
+                    <p style="font-size:0.75rem;color:#556688;margin-top:10px;">
+                        <i class="bi bi-plus-circle me-1"></i> Submit a new ticket above.
+                    </p>
+                </div>
+            `;
+            previousTickets.clear();
+            return;
+        }
+        
+        let html = '';
+        const tickets = [];
+        snapshot.forEach((childSnapshot) => {
+            const ticket = childSnapshot.val();
+            ticket.id = childSnapshot.key;
+            tickets.push(ticket);
+        });
+        
+        // Sort by date (newest first)
+        tickets.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+        
+        // 🔥 Check for new replies
+        checkForNewReplies(tickets);
+        
+        tickets.forEach((ticket) => {
+            const statusClass = ticket.status || 'open';
+            const statusText = statusClass.charAt(0).toUpperCase() + statusClass.slice(1);
+            const shortId = ticket.id ? ticket.id.substring(0, 8) : '';
+            const ticketNumber = ticket.ticketNumber || `#${shortId}`;
+            
+            // Check if this ticket has a new reply (for visual indicator)
+            const prev = previousTickets.get(ticket.id);
+            const hasNewReply = prev && ticket.adminReply && (!prev.adminReply || ticket.adminReply !== prev.adminReply);
+            
+            html += `
+                <div class="ticket-item ${hasNewReply ? 'has-new-reply' : ''}">
+                    <div class="ticket-header">
+                        <div>
+                            <span class="ticket-category">${ticket.category || 'General'}</span>
+                            <span class="ticket-status ${statusClass}">${statusText}</span>
+                            <span class="ticket-number">${ticketNumber}</span>
+                            ${hasNewReply ? '<span class="new-reply-badge"><i class="bi bi-bell-fill me-1"></i>New Reply</span>' : ''}
+                        </div>
+                        <span class="ticket-date">${ticket.date || new Date(ticket.timestamp).toLocaleString('en-IN')}</span>
+                    </div>
+                    <div class="ticket-subject">${ticket.subject || 'No Subject'}</div>
+                    <div class="ticket-message">${ticket.message || ''}</div>
+                    
+                    ${ticket.adminReply ? `
+                        <div class="admin-reply">
+                            <div class="reply-label"><i class="bi bi-person-badge me-1"></i> Admin Reply</div>
+                            <div class="reply-text">${ticket.adminReply}</div>
+                            ${ticket.adminReplyDate ? `<div class="ticket-date mt-1">${new Date(ticket.adminReplyDate).toLocaleString('en-IN')}</div>` : ''}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        });
+        
+        ticketsList.innerHTML = html;
+    });
+}
+
+// ============================================================
+// 🔥 SEARCH TICKETS
+// ============================================================
+window.searchTickets = function() {
+    const userId = document.getElementById('searchUserId').value.trim();
+    if (userId) {
+        loadUserTickets(userId);
+        document.getElementById('supportUserId').value = userId;
+    } else {
+        showToast('❌ Please enter a User ID to search', 'error');
+    }
+};
+
+window.clearSearch = function() {
+    document.getElementById('searchUserId').value = '';
+    previousTickets.clear();
+    document.getElementById('ticketsList').innerHTML = `
+        <div class="no-tickets">
+            <i class="bi bi-inbox"></i>
+            <p>Enter your User ID above to see your tickets.</p>
+            <p style="font-size:0.75rem;color:#556688;margin-top:10px;">
+                <i class="bi bi-bell me-1"></i> Admin replies will appear here automatically!
+            </p>
+        </div>
+    `;
+};
+
+document.getElementById('searchUserId').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        searchTickets();
+    }
+});
+
+// ============================================================
+// 🔥 GENERATE TICKET NUMBER
+// ============================================================
+function generateTicketNumber() {
+    const date = new Date();
+    const year = date.getFullYear().toString().slice(-2);
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const random = String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+    return `RND-${year}${month}${day}-${random}`;
+}
+
+// ============================================================
+// 🔥 SUBMIT SUPPORT TICKET
+// ============================================================
+document.getElementById('supportForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const submitBtn = document.getElementById('submitBtn');
+    const userId = document.getElementById('supportUserId').value.trim();
+    const name = document.getElementById('supportName').value.trim();
+    const email = document.getElementById('supportEmail').value.trim();
+    const category = document.getElementById('supportCategory').value;
+    const subject = document.getElementById('supportSubject').value.trim();
+    const message = document.getElementById('supportMessage').value.trim();
+    const ticketNumber = generateTicketNumber();
+    
+    if (!userId) { showToast('❌ Please enter User ID', 'error'); return; }
+    if (!name) { showToast('❌ Please enter your Name', 'error'); return; }
+    if (!email) { showToast('❌ Please enter your Email', 'error'); return; }
+    if (!category) { showToast('❌ Please select a category', 'error'); return; }
+    if (!subject) { showToast('❌ Please enter a subject', 'error'); return; }
+    if (!message || message.length < 10) {
+        showToast('❌ Please describe your issue in detail (minimum 10 characters)', 'error');
+        return;
+    }
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Submitting...';
+    
+    try {
+        const ticketData = {
+            userId: userId,
+            name: name,
+            email: email,
+            category: category,
+            subject: subject,
+            message: message,
+            status: 'open',
+            ticketNumber: ticketNumber,
+            timestamp: Date.now(),
+            date: new Date().toLocaleString('en-IN', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            }),
+            adminReply: null,
+            adminReplyDate: null
+        };
+        
+        const ticketsRef = ref(db, 'support_tickets');
+        const newTicketRef = push(ticketsRef);
+        await set(newTicketRef, ticketData);
+        
+        document.getElementById('supportFormCard').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'block';
+        
+        showToast(`✅ Ticket ${ticketNumber} submitted successfully!`, 'success');
+        
+        loadUserTickets(userId);
+        document.getElementById('searchUserId').value = userId;
+        
+        document.getElementById('supportForm').reset();
+        document.getElementById('supportMessage').value = '';
+        
+    } catch (error) {
+        console.error('❌ Error submitting ticket:', error);
+        showToast('❌ Failed to submit ticket. Please try again.', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="bi bi-send me-2"></i> Submit Request';
+    }
+});
+
+// ============================================================
+// 🔥 AUTO-LOAD TICKETS
+// ============================================================
+document.getElementById('supportUserId').addEventListener('input', function() {
+    const userId = this.value.trim();
+    if (userId.length > 2) {
+        loadUserTickets(userId);
+        document.getElementById('searchUserId').value = userId;
+    } else {
+        previousTickets.clear();
+        document.getElementById('ticketsList').innerHTML = `
+            <div class="no-tickets">
+                <i class="bi bi-inbox"></i>
+                <p>Enter your User ID above to see your tickets.</p>
+                <p style="font-size:0.75rem;color:#556688;margin-top:10px;">
+                    <i class="bi bi-bell me-1"></i> Admin replies will appear here automatically!
+                </p>
+            </div>
+        `;
+    }
+});
+
+console.log('🛟 Support Center - Live Updates Active!');
+console.log('📁 Firebase Database:', firebaseConfig.databaseURL);
+console.log('📌 Admin replies will appear automatically without refresh!');
+</script>
+</body>
+</html>
